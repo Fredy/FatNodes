@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <utility>
+using namespace std;
 
 enum class Side {
   LEFT,
@@ -16,9 +17,14 @@ public:
   // Version, RightChild
   unordered_map<size_t, FatNode *> right;
 
-  void eject(Side side);
-  // TODO: find all the operations receive the version numbers
-  // this number comes from the containging tree.
+  // The version value is the lattest version + 1
+  static size_t version;
 
   FatNode();
+  FatNode(const int value);
+
+  // Returns a pointer to the insertet node
+  FatNode *inject(const int value, const Side side);
+  void eject(const Side side);
+  void change(const int value);
 };

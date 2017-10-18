@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainWindow.cpp \
-    fatNode.cpp
+    fatNode.cpp \
+    graphicNode.cpp
 
 HEADERS += \
         mainWindow.hpp \
-    fatNode.hpp
+    fatNode.hpp \
+    graphicNode.hpp
 
 FORMS += \
         mainWindow.ui
