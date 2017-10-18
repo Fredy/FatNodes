@@ -27,12 +27,14 @@ SOURCES += \
         main.cpp \
         mainWindow.cpp \
     fatNode.cpp \
-    graphicNode.cpp
+    graphicNode.cpp \
+    fatBinaryTree.cpp
 
 HEADERS += \
         mainWindow.hpp \
     fatNode.hpp \
-    graphicNode.hpp
+    graphicNode.hpp \
+    fatBinaryTree.hpp
 
 FORMS += \
         mainWindow.ui
