@@ -34,7 +34,8 @@ HEADERS += \
         mainWindow.hpp \
     fatNode.hpp \
     graphicNode.hpp \
-    fatBinaryTree.hpp
+    fatBinaryTree.hpp \
+    types.hpp
 
 FORMS += \
         mainWindow.ui

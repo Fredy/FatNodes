@@ -77,3 +77,6 @@ CMakeLists.txt.user*
 
 # User project settings
 *.creator.user*
+
+# my tests
+pr/
