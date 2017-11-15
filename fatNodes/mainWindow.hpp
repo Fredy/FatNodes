@@ -6,14 +6,14 @@ namespace Ui {
 class MainWindow;
 }
 
-class QGraphicsScene;
+class NodesScene;
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
 
 private:
   Ui::MainWindow *ui;
-  QGraphicsScene *scene;
+  NodesScene *scene;
 
 public:
   explicit MainWindow(QWidget *parent = 0);

@@ -80,3 +80,4 @@ CMakeLists.txt.user*
 
 # my tests
 pr/
+main2.cpp

@@ -10,6 +10,7 @@ FatNode::FatNode() {
 
 FatNode::FatNode(const int value) {
   //this->value[this->version] = value;
+  this->value = value;
   this->left[this->version] = nullptr;
   this->right[this->version] = nullptr;
 }
@@ -42,11 +43,11 @@ void FatNode::eject(const Side side) {
 FatNode *FatNode::getLeft(const size_t version) {
   auto relevant = this->left.lower_bound(version);
   assert(relevant != this->left.end());
-  return *relevant;
+  return (*relevant).second;
 }
 
 FatNode *FatNode::getRight(const size_t version) {
   auto relevant = this->right.lower_bound(version);
   assert(relevant != this->right.end());
-  return *relevant;
+  return (*relevant).second;
 }
