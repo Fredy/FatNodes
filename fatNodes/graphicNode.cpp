@@ -1,5 +1,5 @@
 #include "graphicNode.hpp"
-#include "fatNode.hpp"
+#include "fatBinaryTree/fatNode.hpp"
 #include <QGraphicsTextItem>
 #include <QFont>
 #include <QPen>

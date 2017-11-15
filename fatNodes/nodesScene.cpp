@@ -1,6 +1,6 @@
 #include "nodesScene.hpp"
-#include "fatBinaryTree.hpp"
-#include "fatNode.hpp"
+#include "fatBinaryTree/fatBinaryTree.hpp"
+#include "fatBinaryTree/fatNode.hpp"
 #include "graphicNode.hpp"
 #include <QDebug>
 #include <vector>

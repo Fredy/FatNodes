@@ -1,5 +1,5 @@
 #include "mainWindow.hpp"
-#include "fatBinaryTree.hpp"
+#include "fatBinaryTree/fatBinaryTree.hpp"
 #include "graphicNode.hpp"
 #include "nodesScene.hpp"
 #include "ui_mainWindow.h"
@@ -7,7 +7,7 @@
 #include <QGraphicsTextItem>
 #include <QDebug>
 
-#include "fatNode.hpp"
+#include "fatBinaryTree/fatNode.hpp"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {

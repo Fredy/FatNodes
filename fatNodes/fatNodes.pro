@@ -24,20 +24,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        mainWindow.cpp \
-    fatNode.cpp \
+    main.cpp \
+    mainWindow.cpp \
+    fatBinaryTree/fatNode.cpp \
     graphicNode.cpp \
-    fatBinaryTree.cpp \
-    nodesScene.cpp
+    nodesScene.cpp \
+    fatBinaryTree/fatBinaryTree.cpp
 
 HEADERS += \
-        mainWindow.hpp \
-    fatNode.hpp \
+    mainWindow.hpp \
+    fatBinaryTree/fatNode.hpp \
     graphicNode.hpp \
-    fatBinaryTree.hpp \
-    types.hpp \
+    fatBinaryTree/fatBinaryTree.hpp \
+    fatBinaryTree/types.hpp \
     nodesScene.hpp
 
 FORMS += \
-        mainWindow.ui
+    mainWindow.ui
+
+DISTFILES += \
+    a.out
