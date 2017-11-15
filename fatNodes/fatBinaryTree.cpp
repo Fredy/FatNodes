@@ -7,7 +7,7 @@
 
 FatBinaryTree::FatBinaryTree() {
   this->mainPtr = new FatNode(numeric_limits<int>::max());
-  this->currentVer = 1;
+  this->currentVer = 0;
   this->maxVer = 0;
   FatNode::version++;
 }
@@ -45,17 +45,25 @@ FatNode *FatBinaryTree::findParent(int x) {
 
 void FatBinaryTree::insert(int x) {
   FatNode *fnd = this->findParent(x);
+  bool inserted = false;
 
   // Find the correct position
   if (x < fnd->value) {
-    if (!fnd->getLeft(this->currentVer))
+    if (!fnd->getLeft(this->currentVer)) {
       fnd->inject(x, Side::LEFT);
+      inserted = true;
+    }
   } else {
-    if (!fnd->getRight(this->currentVer))
+    if (!fnd->getRight(this->currentVer)) {
       fnd->inject(x, Side::RIGHT);
+      inserted = true;
+    }
   }
-  this->currentVer++;
-  this->maxVer++;
+
+  if (inserted) {
+    this->currentVer++;
+    this->maxVer++;
+  }
 }
 
 void FatBinaryTree::remove(int x) {
@@ -141,30 +149,6 @@ void FatBinaryTree::pprint() {
     nodesV.erase(nodesV.begin(), nodesV.begin() + size);
   }
 }
-
-/*
-template <typename T>
-void AVLTree<T>::printBonito(){
-    vector <Node<T>* > c;
-    c.push_back(raiz);
-    int len;
-    while(c.size()!=0){
-        len=c.size();
-        for(int i=0;i<len;i++){
-            if(c[i]){
-                cout<<c[i]->val<<" ";
-                c.push_back(c[i]->nodes[0]);
-                c.push_back(c[i]->nodes[1]);
-            }
-            else
-                cout << ". ";
-
-            }
-        cout<<endl;
-        c.erase(c.begin(),c.begin()+len);
-    }
-}
- */
 
 bool FatBinaryTree::redo() {
   if (this->currentVer < this->maxVer) {

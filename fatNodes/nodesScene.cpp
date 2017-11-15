@@ -14,7 +14,8 @@ NodesScene::NodesScene(QObject *parent) : QGraphicsScene(parent) {
 void NodesScene::updateTree() {
   // First the scene is cleared.
   this->clear();
-  qDebug() << this->tree->currentVer << '\n';
+  qDebug() << "Tree:  "<< this->tree->currentVer << '\n';
+  qDebug() << "NODES: " << FatNode::version << '\n';
 
   vector<FatNode *> nodesV;
   nodesV.push_back(this->tree->root());
