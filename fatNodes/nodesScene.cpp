@@ -34,7 +34,7 @@ void NodesScene::updateTree() {
       if (nodesV[i]) {
         // PRINT
         GraphicNode *tmpg =
-            new GraphicNode(nodesV[i], QPointF(position, level));
+            new GraphicNode(nodesV[i]->getValue(this->tree->currentVer), QPointF(position, level));
         this->addItem(tmpg);
         position += 50.0;
 

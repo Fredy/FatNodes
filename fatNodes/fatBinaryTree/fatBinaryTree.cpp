@@ -33,9 +33,9 @@ FatNode **FatBinaryTree::find(int x) {
 FatNode *FatBinaryTree::findParent(int x) {
   FatNode *ptr = this->root(this->currentVer);
   FatNode *ret = this->mainPtr;
-  while (ptr and ptr->value != x) {
+  while (ptr and ptr->getValue(this->currentVer) != x) {
     ret = ptr;
-    if (x < ptr->value)
+    if (x < ptr->getValue(this->currentVer))
       ptr = ptr->getLeft(this->currentVer);
     else
       ptr = ptr->getRight(this->currentVer);
@@ -48,7 +48,7 @@ void FatBinaryTree::insert(int x) {
   bool inserted = false;
 
   // Find the correct position
-  if (x < fnd->value) {
+  if (x < fnd->getValue(this->currentVer)) {
     if (!fnd->getLeft(this->currentVer)) {
       fnd->inject(x, Side::LEFT);
       inserted = true;
@@ -120,7 +120,7 @@ void FatBinaryTree::printBFS(const size_t version) {
   nodeq.push(this->root(version));
   while (!nodeq.empty()) {
     if (nodeq.front()) {
-      cout << nodeq.front()->value << ' ';
+      cout << nodeq.front()->getValue(this->currentVer) << ' ';
       nodeq.push(nodeq.front()->getLeft(version));
       nodeq.push(nodeq.front()->getRight(version));
     }
@@ -138,7 +138,7 @@ void FatBinaryTree::pprint() {
     size = nodesV.size();
     for (size_t i = 0; i < size; i++) {
       if (nodesV[i]) {
-        cout << nodesV[i]->value << ' ';
+        cout << nodesV[i]->getValue(this->currentVer) << ' ';
         nodesV.push_back(nodesV[i]->getLeft(this->currentVer));
         nodesV.push_back(nodesV[i]->getRight(this->currentVer));
       } else {

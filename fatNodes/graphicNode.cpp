@@ -4,7 +4,7 @@
 #include <QFont>
 #include <QPen>
 
-GraphicNode::GraphicNode(FatNode *data, const QPointF &center,
+GraphicNode::GraphicNode(const int value, const QPointF &center,
                          const double radius, QGraphicsItem *parent)
     : QGraphicsEllipseItem(center.x() - radius, center.y() - radius, radius * 2,
                            radius * 2, parent) {
@@ -13,7 +13,7 @@ GraphicNode::GraphicNode(FatNode *data, const QPointF &center,
   // this->setBrush(Qt::red); // TODO: find a good color;
   this->setFlag(QGraphicsItem::ItemIsSelectable, true);
 
-  QGraphicsTextItem *text = new QGraphicsTextItem(QString::number(data->value),this);
+  QGraphicsTextItem *text = new QGraphicsTextItem(QString::number(value),this);
   text->setFont(QFont("monospace", 14));
   text->setPos(this->rect().center() - QPointF(15.0, 15.0));
   //text->setPos();
