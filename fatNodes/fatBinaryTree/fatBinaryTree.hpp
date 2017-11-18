@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <vector>
 using namespace std;
 
@@ -41,6 +42,7 @@ public:
 
   void printBFS(const size_t version);
   void pprint();
+  string printGraphviz(const size_t version);
 
   // TODO: clear and destructor
 };

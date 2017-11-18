@@ -9,12 +9,11 @@ int main(int argc, char *argv[]) {
   return a.exec();
 }
 
-
 //#include <iostream>
 //#include "fatBinaryTree.hpp"
-//using namespace std;
+// using namespace std;
 
-//int main() {
+// int main() {
 //  FatBinaryTree tree;
 //  tree.insert(3);
 //  tree.insert(1);

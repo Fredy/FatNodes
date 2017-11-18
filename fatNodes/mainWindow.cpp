@@ -3,9 +3,9 @@
 #include "graphicNode.hpp"
 #include "nodesScene.hpp"
 #include "ui_mainWindow.h"
+#include <QDebug>
 #include <QGraphicsScene>
 #include <QGraphicsTextItem>
-#include <QDebug>
 
 #include "fatBinaryTree/fatNode.hpp"
 
@@ -16,21 +16,19 @@ MainWindow::MainWindow(QWidget *parent)
   this->scene = new NodesScene(this);
   ui->graphicsView->setScene(this->scene);
 
-//  this->scene->tree->insert(20);
-//  this->scene->tree->insert(10);
-//  this->scene->tree->insert(30);
-//  this->scene->tree->insert(5);
-//  this->scene->tree->insert(15);
-//  this->scene->tree->insert(25);
-//  this->scene->tree->insert(35);
-//  this->scene->tree->insert(3);
-//  this->scene->tree->insert(55);
-
+  //  this->scene->tree->insert(20);
+  //  this->scene->tree->insert(10);
+  //  this->scene->tree->insert(30);
+  //  this->scene->tree->insert(5);
+  //  this->scene->tree->insert(15);
+  //  this->scene->tree->insert(25);
+  //  this->scene->tree->insert(35);
+  //  this->scene->tree->insert(3);
+  //  this->scene->tree->insert(55);
 
   this->scene->tree->printBFS(100);
   this->scene->tree->pprint();
   this->scene->updateTree();
-
 
   connect(ui->btnRedo, SIGNAL(clicked()), scene, SLOT(redoTree()));
   connect(ui->btnUndo, SIGNAL(clicked()), scene, SLOT(undoTree()));
@@ -47,10 +45,6 @@ void MainWindow::handleInsert() {
   this->scene->updateTree();
 }
 
-void MainWindow::handleRemove() {
+void MainWindow::handleRemove() {}
 
-}
-
-void MainWindow::handlefind() {
-
-}
+void MainWindow::handlefind() {}

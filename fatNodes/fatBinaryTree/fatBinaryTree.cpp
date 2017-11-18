@@ -4,6 +4,7 @@
 #include <iostream>
 #include <limits>
 #include <queue>
+#include <sstream>
 
 FatBinaryTree::FatBinaryTree() {
   this->mainPtr = new FatNode(numeric_limits<int>::max());
@@ -120,7 +121,7 @@ void FatBinaryTree::printBFS(const size_t version) {
   nodeq.push(this->root(version));
   while (!nodeq.empty()) {
     if (nodeq.front()) {
-      cout << nodeq.front()->getValue(this->currentVer) << ' ';
+      cout << nodeq.front()->getValue(version) << ' ';
       nodeq.push(nodeq.front()->getLeft(version));
       nodeq.push(nodeq.front()->getRight(version));
     }
@@ -148,6 +149,46 @@ void FatBinaryTree::pprint() {
     cout << '\n';
     nodesV.erase(nodesV.begin(), nodesV.begin() + size);
   }
+}
+
+string FatBinaryTree::printGraphviz(const size_t version) {
+  stringstream output;
+  size_t nulls = 0;
+  queue<FatNode *> nodeq;
+  nodeq.push(this->root(version));
+
+  output << "digraph g{\n";
+
+  while (!nodeq.empty()) {
+    if (nodeq.front()) {
+      FatNode *parentPtr = nodeq.front();
+      int parent = parentPtr->getValue(version);
+      if (parentPtr->getLeft(version)) {
+        int childLeft = parentPtr->getLeft(version)->getValue(version);
+        output << "  " << parent << " -> " << childLeft << ";\n";
+      } else {
+        output << "  null" << nulls << " [shape=none, label=\"null\"];\n";
+        output << "  " << parent << " -> null" << nulls << ";\n";
+        nulls++;
+      }
+
+      if (parentPtr->getRight(version)) {
+        int childRight = parentPtr->getRight(version)->getValue(version);
+        output << "  " << parent << " -> " << childRight << ";\n";
+      } else {
+        output << "  null" << nulls << " [shape=none, label=\"null\"];\n";
+        output << "  " << parent << " -> null" << nulls << ";\n";
+        nulls++;
+      }
+
+      nodeq.push(nodeq.front()->getLeft(version));
+      nodeq.push(nodeq.front()->getRight(version));
+    }
+    nodeq.pop();
+  }
+  output << "}\n";
+
+  return output.str();
 }
 
 bool FatBinaryTree::redo() {

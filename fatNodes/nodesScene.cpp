@@ -3,6 +3,7 @@
 #include "fatBinaryTree/fatNode.hpp"
 #include "graphicNode.hpp"
 #include <QDebug>
+#include <QProcess>
 #include <vector>
 
 NodesScene::NodesScene() {}
@@ -14,41 +15,24 @@ NodesScene::NodesScene(QObject *parent) : QGraphicsScene(parent) {
 void NodesScene::updateTree() {
   // First the scene is cleared.
   this->clear();
-  qDebug() << "Tree:  "<< this->tree->currentVer << '\n';
-  qDebug() << "NODES: " << FatNode::version << '\n';
 
-  vector<FatNode *> nodesV;
-  nodesV.push_back(this->tree->root());
-  size_t size;
+  // We are using Graphviz to generate the graphic tree.
+  QProcess *proc = new QProcess();
+  string out = this->tree->printGraphviz(this->tree->currentVer);
 
-  double position = 0.0;
-  double level = 0.0;
-  int ilvl = 0;
+  proc->setProcessChannelMode(QProcess::MergedChannels);
+  proc->start("dot", QStringList() << "-Tpng");
+  proc->write(out.c_str());
 
-  // TODO: save each level in a vector and calculate the number of levels.
-  while (nodesV.size() != 0) {
-    size = nodesV.size();
-    position = -30.0 * ilvl * ilvl / 2;
+  QByteArray data;
+  QPixmap pixmap = QPixmap();
 
-    for (size_t i = 0; i < size; i++) {
-      if (nodesV[i]) {
-        // PRINT
-        GraphicNode *tmpg =
-            new GraphicNode(nodesV[i]->getValue(this->tree->currentVer), QPointF(position, level));
-        this->addItem(tmpg);
-        position += 50.0;
-
-        nodesV.push_back(nodesV[i]->getLeft(this->tree->currentVer));
-        nodesV.push_back(nodesV[i]->getRight(this->tree->currentVer));
-      } else {
-        // PRINT WHITE SPACE
-        position += 50.0;
-      }
-    }
-    level += 50.0;
-    ilvl++;
-    nodesV.erase(nodesV.begin(), nodesV.begin() + size);
+  while (proc->waitForReadyRead(100)) {
+    data.append(proc->readAll());
   }
+
+  pixmap.loadFromData(data);
+  this->addPixmap(pixmap);
 }
 
 void NodesScene::undoTree() {
