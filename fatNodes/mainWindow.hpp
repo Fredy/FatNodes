@@ -23,4 +23,5 @@ public slots:
   void handleInsert();
   void handleRemove();
   void handlefind();
+  void handleVersion();
 };

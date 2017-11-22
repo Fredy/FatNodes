@@ -29,6 +29,7 @@ FatNode **FatBinaryTree::find(int x) {
   //      ptr = &((*ptr)->getRight(this->currentVer));
   //  }
   //  return ptr;
+  return nullptr;
 }
 
 FatNode *FatBinaryTree::findParent(int x) {
@@ -45,6 +46,9 @@ FatNode *FatBinaryTree::findParent(int x) {
 }
 
 void FatBinaryTree::insert(int x) {
+  if (this->currentVer < this->maxVer)
+    this->invalidateNodes(this->currentVer + 1);
+
   FatNode *fnd = this->findParent(x);
   bool inserted = false;
 
@@ -68,16 +72,20 @@ void FatBinaryTree::insert(int x) {
 }
 
 void FatBinaryTree::remove(int x) {
-  /*
+  if (this->currentVer < this->maxVer)
+    this->invalidateNodes(this->currentVer + 1);
+
   FatNode *parent = this->findParent(x);
   FatNode *child;
   Side side;
 
-  if (x < parent->value) {
+  if (x < parent->getValue(this->currentVer)) {
+    side = Side::LEFT;
     child = parent->getLeft(this->currentVer);
     if (!child)
       return;
   } else {
+    side = Side::RIGHT;
     child = parent->getRight(this->currentVer);
     if (!child)
       return;
@@ -86,14 +94,63 @@ void FatBinaryTree::remove(int x) {
   if (child->getLeft(this->currentVer) and child->getRight(this->currentVer)) {
     // TODO: choose a random subtree.
     FatNode *tmp = child;
-    tmp =  tmp->getLeft(this->currentVer);
-    while (tmp->getRight(this->currentVer))
-      tmp = tmp->getRight(this->currentVer);
-    child = xd;
+    parent = child;
+    child = child->getLeft(this->currentVer);
+    if (child->getRight(this->currentVer))
+      side = Side::RIGHT;
+    while (child->getRight(this->currentVer)) {
+      parent = child;
+      child = child->getRight(this->currentVer);
+    }
+    tmp->change(child->getValue(this->currentVer));
+    // All this is just one operation, so all is contained in one version.
+    FatNode::version--;
   }
-  FatNode *tmp = child;
-  */
+  // TODO: dejar de usar side  y usar la rama que no es nula!
+
+  if (child->getLeft(this->currentVer)) {
+    parent->inject(child->getLeft(this->currentVer), side);
+    // child->inject(nullptr, Side::LEFT);
+  } else {
+    parent->inject(child->getRight(this->currentVer), side);
+    // child->inject(nullptr, Side::RIGHT);
+  }
+
+  this->currentVer++;
+  this->maxVer++;
 }
+
+/*
+
+template <typename T>
+bool ArbolBinario<T>::remove(T x) {
+    Node<T> **ptr;
+    if (find(x, ptr)) {
+        //Cambio
+        if ((*ptr)->left and (*ptr)->right) {
+            Node<T> **tmp = ptr;
+            ptr = &((*ptr)->left);
+            while ((*ptr)->right) {
+                ptr = &((*ptr)->right);
+            }
+            (*tmp)->val = (*ptr)->val;
+        }
+
+        Node<T> *tmp = (*ptr);
+        if ((*ptr)->left)
+            (*ptr) = (*ptr)->left;
+        else
+            (*ptr) = (*ptr)->right;
+        delete tmp;
+        return 1;
+    }
+    else {
+        return 0;
+    }
+
+}
+*/
+
 /*
 template<typename T>
 bool ArbolBin<T>::remove(T x){
@@ -193,7 +250,7 @@ string FatBinaryTree::printGraphviz(const size_t version) {
 
 bool FatBinaryTree::redo() {
   if (this->currentVer < this->maxVer) {
-    currentVer++;
+    this->currentVer++;
     return true;
   }
   return false;
@@ -201,8 +258,27 @@ bool FatBinaryTree::redo() {
 
 bool FatBinaryTree::undo() {
   if (this->currentVer > 0) {
-    currentVer--;
+    this->currentVer--;
     return true;
   }
   return false;
+}
+
+void FatBinaryTree::invalidateNodes(const size_t version) {
+  // TODO: delete the invalidates nodes!
+  const size_t prefVer = version - 1;
+  this->mainPtr->invalidateVers(version);
+
+  queue<FatNode *> nodeq;
+  nodeq.push(this->root(prefVer));
+  while (!nodeq.empty()) {
+    if (nodeq.front()) {
+      nodeq.front()->invalidateVers(version);
+      nodeq.push(nodeq.front()->getLeft(prefVer));
+      nodeq.push(nodeq.front()->getRight(prefVer));
+    }
+    nodeq.pop();
+  }
+
+  this->maxVer = this->currentVer;
 }

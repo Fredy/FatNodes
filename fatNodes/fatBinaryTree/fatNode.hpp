@@ -15,6 +15,8 @@ private:
   // Version, RightChild
   vmap<FatNode *> right;
 
+  template <typename T> void invalidateVers(vmap<T> &versionsMap);
+
 public:
   // The version value is the lattest version + 1
   static size_t version;
@@ -24,10 +26,14 @@ public:
 
   // Returns a pointer to the insertet node
   FatNode *inject(const int value, const Side side);
+  FatNode *inject(FatNode *fatnode, const Side side);
   void eject(const Side side);
   void change(const int value);
 
   FatNode *getLeft(const size_t version);
   FatNode *getRight(const size_t version);
   int getValue(const size_t version);
+
+  // Invalidate versions since the input version.
+  void invalidateVers(const size_t version);
 };

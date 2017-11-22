@@ -44,5 +44,6 @@ public:
   void pprint();
   string printGraphviz(const size_t version);
 
+  void invalidateNodes(const size_t version);
   // TODO: clear and destructor
 };

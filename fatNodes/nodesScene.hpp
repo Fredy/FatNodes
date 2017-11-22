@@ -16,5 +16,6 @@ public:
 public slots:
   void undoTree();
   void redoTree();
-  void inserTree(int value);
+  void inserTree(const int value);
+  void removeTree(const int value);
 };

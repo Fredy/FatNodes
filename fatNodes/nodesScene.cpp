@@ -46,4 +46,6 @@ void NodesScene::redoTree() {
   if (up)
     this->updateTree();
 }
-void NodesScene::inserTree(int value) { this->tree->insert(value); }
+void NodesScene::inserTree(const int value) { this->tree->insert(value); }
+
+void NodesScene::removeTree(const int value) { this->tree->remove(value); }
